@@ -1,8 +1,10 @@
 package de.hsfulda.ai.prog2.editor;
 import javax.swing.*;
+import java.awt.event.KeyEvent;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
+import java.awt.event.ActionEvent;
 
 
 public class MeinEditor {
@@ -27,7 +29,7 @@ public class MeinEditor {
 		menueErzeugen(fenster);
 		
 		//textarea erzeugen
-		JTextArea textarea = new JTextArea("Textarea!",10,10);
+		JTextArea textarea = new JTextArea("2 Do: Code!",10,10);
 		
 		//textarea hinzufügen
 		ContentPane.add(textarea);
@@ -55,28 +57,32 @@ public class MeinEditor {
 		//Fenster menuezeile als Menu zuweisen
 		fenster.setJMenuBar(menuezeile);
 		
-		//Datei Menü Erzeigen
+		//Datei Menü erzeugen
 		dateiMenueErzeugen(menuezeile);
-		//Bearbeiten Menü Erzeigen
-		bearbeitenmenueErzeigen(menuezeile);
-		//Format Menü Erzeigen		
+		//Bearbeiten Menü erzeugen
+		bearbeitenmenueErzeugen(menuezeile);
+		//Format Menü erzeugen		
 		formatMenueErzeugen(menuezeile);
-		//Hilfe Menü Erzeigen
-		hilfeMenueErzeigen(menuezeile);			
+		//Hilfe Menü erzeugen
+		hilfeMenueErzeugen(menuezeile);			
 		
 	}
 
-	private void hilfeMenueErzeigen(JMenuBar menuezeile) {
+	private void hilfeMenueErzeugen(JMenuBar menuezeile) {
 		//Hilfe erzeugen
 		JMenu hilfemenue = new JMenu("Hilfe");
+		
 		//Hilfe hinzufügen
 		menuezeile.add(hilfemenue);
 		//Hilfe anzeigen erzeugen
-		JMenuItem hilfeanzeigen = new JMenuItem("Hilfe Anzeigen");		
+		JMenuItem hilfeanzeigen = new JMenuItem("Hilfe Anzeigen",'H');
+		hilfeanzeigen.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F1, ActionEvent.CTRL_MASK));
 		//Hilfe anzeigen hinzufügen
 		hilfemenue.add(hilfeanzeigen);
+		hilfeanzeigen.setMnemonic(KeyEvent.VK_H);
+		hilfemenue.addSeparator();
 		//Info erzeugen
-		JMenuItem info = new JMenuItem("Info");		
+		JMenuItem info = new JMenuItem("Info",'I');		
 		//Info hinzufügen
 		hilfemenue.add(info);
 		
@@ -94,25 +100,33 @@ public class MeinEditor {
 		
 	}
 
-	private void bearbeitenmenueErzeigen(JMenuBar menuezeile) {
+	private void bearbeitenmenueErzeugen(JMenuBar menuezeile) {
 		//Bearbeiten erzeigen
 		JMenu bearbeitenmenue = new JMenu("Bearbeiten");
 		//Bearbeiten hinzufügen
 		menuezeile.add(bearbeitenmenue);
 		//Beenden menue erzeugen
-		JMenuItem rueckgaengig = new JMenuItem("Rückgängig");		
+		JMenuItem rueckgaengig = new JMenuItem("Rückgängig",'R');
+		rueckgaengig.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, ActionEvent.CTRL_MASK));
 		//beenden meneue hinzufügen
 		bearbeitenmenue.add(rueckgaengig);
+		rueckgaengig.setMnemonic(KeyEvent.VK_R);
 		//Beenden menue erzeugen
-		JMenuItem wiederholen = new JMenuItem("Wiederholen");		
+		JMenuItem wiederholen = new JMenuItem("Wiederholen",'W');
+		wiederholen.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_W, ActionEvent.CTRL_MASK));
 		//beenden meneue hinzufügen
 		bearbeitenmenue.add(wiederholen);
+		wiederholen.setMnemonic(KeyEvent.VK_W);
 		//ausschneiden
-		JMenuItem ausschneiden = new JMenuItem("Ausschneiden");		
+		JMenuItem ausschneiden = new JMenuItem("Ausschneiden",'A');	
+		ausschneiden.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, ActionEvent.CTRL_MASK));
 		//beenden meneue hinzufügen
 		bearbeitenmenue.add(ausschneiden);
+		ausschneiden.setMnemonic(KeyEvent.VK_X);
+		bearbeitenmenue.addSeparator();
 		//suchen/ersetzen
-		JMenuItem suchenersetzen = new JMenuItem("Suchen und Ersetzen");		
+		JMenuItem suchenersetzen = new JMenuItem("Suchen und Ersetzen",'S');	
+		suchenersetzen.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F, ActionEvent.CTRL_MASK));
 		//beenden meneue hinzufügen
 		bearbeitenmenue.add(suchenersetzen);
 		
@@ -125,23 +139,31 @@ public class MeinEditor {
 		menuezeile.add(dateimenue);
 				
 		//Neu menue erzeugen
-		JMenuItem neu = new JMenuItem("Neu");		
+		JMenuItem neu = new JMenuItem("Neu",'N');
+		neu.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, ActionEvent.CTRL_MASK));
 		//Neu meneue hinzufügen
 		dateimenue.add(neu);
+		neu.setMnemonic(KeyEvent.VK_N);
 		//oeffnen menue erzeugen
-		JMenuItem oeffnen = new JMenuItem("Öffnen");		
+		JMenuItem oeffnen = new JMenuItem("Öffnen",'O');
+		oeffnen.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.CTRL_MASK));
 		//oeffnen meneue hinzufügen
 		dateimenue.add(oeffnen);
+		oeffnen.setMnemonic(KeyEvent.VK_O);
+		dateimenue.addSeparator();
 		//Speichern menue erzeugen
-		JMenuItem speichern = new JMenuItem("Speichern");		
+		JMenuItem speichern = new JMenuItem("Speichern",'S');
+		speichern.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK));
 		//speichern meneue hinzufügen
 		dateimenue.add(speichern);
+		speichern.setMnemonic(KeyEvent.VK_S);
 		//Speichern unter menue erzeugen
 		JMenuItem speichernunter = new JMenuItem("Speichern unter");
 		//speichern unter meneue hinzufügen
 		dateimenue.add(speichernunter);
+		dateimenue.addSeparator();
 		//Schliessen menue erzeugen
-		JMenuItem schliessen = new JMenuItem("Schließen");		
+		JMenuItem schliessen = new JMenuItem("Schließen",'C');		
 		//schliessen meneue hinzufügen
 		dateimenue.add(schliessen);
 		//Beenden menue erzeugen
