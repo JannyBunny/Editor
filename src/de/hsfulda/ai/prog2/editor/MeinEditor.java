@@ -1,10 +1,12 @@
 package de.hsfulda.ai.prog2.editor;
 import javax.swing.*;
+
 import java.io.FileReader;
 import java.io.IOException;
 import java.awt.event.KeyEvent;
 import java.awt.BorderLayout;
 import java.awt.Container;
+import java.awt.FlowLayout;
 //import java.awt.TextArea;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,7 +15,7 @@ import java.awt.event.ActionListener;
 public class MeinEditor implements ActionListener {
 
 	/**
-	 * 
+	 * Mein Editor von Jan-René Grünhagen!
 	 */
 	
 	private JFrame fenster;
@@ -22,6 +24,10 @@ public class MeinEditor implements ActionListener {
 	private JTextArea textarea;
 	private FileReader reader = null;
 	private JLabel label;
+	private KopierenActionListener kal = new KopierenActionListener();
+	private EinfuegenActionListener eal = new EinfuegenActionListener();
+	private AusschneidenActionListener aal = new AusschneidenActionListener();
+	
 	public MeinEditor() {
 		super();
 		// Von hier Fenster erzeugen
@@ -40,7 +46,9 @@ public class MeinEditor implements ActionListener {
 		menueErzeugen(fenster);
 		
 		//textarea erzeugen
-		 textarea = new JTextArea("2 Do: Code! Pls no Bugs!",10,10);
+		 textarea = new JTextArea("2 Do: Code! Pls no Bugs!",40,60);
+		 textarea.setLineWrap(true);
+		 textarea.setWrapStyleWord(true);
 		
 		//textarea hinzufügen
 		ContentPane.add(textarea);
@@ -65,39 +73,43 @@ public class MeinEditor implements ActionListener {
 
 	private void symbolleisteErzeugen(JFrame fenster, Container ContentPane) {
 		JPanel symbolleiste = new JPanel();
+		symbolleiste.setLayout(new FlowLayout(FlowLayout.LEFT));
 		
 		//Kopieren Knopf
 		ImageIcon copyIcon = new ImageIcon("copy-icon.png");
 		JButton copybutton = new JButton(copyIcon);
 		symbolleiste.add(copybutton);
-		copybutton.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e)
-			{
-				textKopieren();
-			}
-		});
+		copybutton.addActionListener(kal);
+//		copybutton.addActionListener(new ActionListener(){
+//			public void actionPerformed(ActionEvent e)
+//			{
+//				textKopieren();
+//			}
+//		});
 		
 		//einfügen Knopf
 		ImageIcon pasteIcon = new ImageIcon("paste-icon.png");
 		JButton pastebutton = new JButton(pasteIcon);
 		symbolleiste.add(pastebutton);
-		pastebutton.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e)
-			{
-				textEinfuegen();
-			}
-		});
+		pastebutton.addActionListener(eal);
+//		pastebutton.addActionListener(new ActionListener(){
+//			public void actionPerformed(ActionEvent e)
+//			{
+//				textEinfuegen();
+//			}
+//		});
 		
 		//Ausschneiden Knopf
 		ImageIcon cutIcon = new ImageIcon("cut-icon.png");
 		JButton cutbutton = new JButton(cutIcon);
 		symbolleiste.add(cutbutton);
-		cutbutton.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e)
-			{
-				textAusschneiden();
-			}
-		});
+		cutbutton.addActionListener(aal);
+//		cutbutton.addActionListener(new ActionListener(){
+//			public void actionPerformed(ActionEvent e)
+//			{
+//				textAusschneiden();
+//			}
+//		});
 		
 		//Auf die Content Pane mit dir!
 		ContentPane.add(symbolleiste,BorderLayout.NORTH);	
@@ -139,6 +151,15 @@ public class MeinEditor implements ActionListener {
 		//Info hinzufügen
 		hilfemenue.add(info);
 		
+		JMenuItem ueber = new JMenuItem("Über",'Ü');
+		hilfemenue.add(ueber);
+		
+		ueber.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				JOptionPane.showMessageDialog(null, "Über das Programm", "Über das Programm", 1 , null);
+			}
+		});
+		
 	}
 
 	private void formatMenueErzeugen(JMenuBar menuezeile) {
@@ -155,6 +176,7 @@ public class MeinEditor implements ActionListener {
 	}
 
 	private void bearbeitenmenueErzeugen(JMenuBar menuezeile) {
+		
 		//Bearbeiten erzeigen
 		JMenu bearbeitenmenue = new JMenu("Bearbeiten");
 		bearbeitenmenue.setMnemonic(KeyEvent.VK_B);
@@ -176,12 +198,13 @@ public class MeinEditor implements ActionListener {
 		//kopieren
 		JMenuItem kopieren = new JMenuItem("Kopieren",'C');	
 		kopieren.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, ActionEvent.CTRL_MASK));
-		kopieren.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e)
-			{
-				textKopieren();
-			}
-		});
+		kopieren.addActionListener(kal);
+//		kopieren.addActionListener(new ActionListener(){
+//			public void actionPerformed(ActionEvent e)
+//			{
+//				textKopieren();
+//			}
+//		});
 		//beenden meneue hinzufügen
 		bearbeitenmenue.add(kopieren);
 		kopieren.setMnemonic(KeyEvent.VK_C);
@@ -189,12 +212,13 @@ public class MeinEditor implements ActionListener {
 		//ausschneiden
 		JMenuItem ausschneiden = new JMenuItem("Ausschneiden",'A');	
 		ausschneiden.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, ActionEvent.CTRL_MASK));
-		ausschneiden.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e)
-			{
-				textAusschneiden();
-			}
-		});
+		ausschneiden.addActionListener(aal);
+//		ausschneiden.addActionListener(new ActionListener(){
+//			public void actionPerformed(ActionEvent e)
+//			{
+//				textAusschneiden();
+//			}
+//		});
 		//ausschneiden meneue hinzufügen
 		bearbeitenmenue.add(ausschneiden);
 		ausschneiden.setMnemonic(KeyEvent.VK_X);
@@ -202,12 +226,14 @@ public class MeinEditor implements ActionListener {
 		//einfügen
 		JMenuItem einfuegen = new JMenuItem("Einfügen",'V');	
 		einfuegen.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V, ActionEvent.CTRL_MASK));
-		einfuegen.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e)
-			{
-				textEinfuegen();
-			}
-		});
+		einfuegen.addActionListener(eal);
+		
+//		einfuegen.addActionListener(new ActionListener(){
+//			public void actionPerformed(ActionEvent e)
+//			{
+//				textEinfuegen();
+//			}
+//		});
 		//einfuegen meneue hinzufügen
 		bearbeitenmenue.add(einfuegen);
 		einfuegen.setMnemonic(KeyEvent.VK_V);
@@ -245,6 +271,8 @@ public class MeinEditor implements ActionListener {
 	}
 
 	private void dateiMenueErzeugen(JMenuBar menuezeile) {
+		OeffnenActionListener oal;
+		
 		//Dateimenue erzeigen
 		JMenu dateimenue = new JMenu("Datei");
 		dateimenue.setMnemonic(KeyEvent.VK_D);
@@ -263,7 +291,7 @@ public class MeinEditor implements ActionListener {
 		//oeffnen meneue hinzufügen
 		dateimenue.add(oeffnen);
 		oeffnen.setMnemonic(KeyEvent.VK_O);
-		OeffnenActionListener oal = new OeffnenActionListener();	
+		oal = new OeffnenActionListener();	
 		oeffnen.addActionListener(oal);
 		dateimenue.addSeparator();
 		//Speichern menue erzeugen
@@ -294,6 +322,42 @@ public class MeinEditor implements ActionListener {
 		
 	}
 	
+	/**
+	 * @author jrg
+	 *
+	 */
+	public class AusschneidenActionListener implements ActionListener{
+		public void actionPerformed(ActionEvent e){
+			textAusschneiden();
+		}
+	}
+	
+	/**
+	 * @author jrg
+	 *
+	 */
+	public class EinfuegenActionListener implements ActionListener {
+		public void actionPerformed(ActionEvent e){
+			textEinfuegen();
+		}
+
+	}
+	
+	/**
+	 * @author jrg
+	 *
+	 */
+	public class KopierenActionListener implements ActionListener{
+		public void actionPerformed(ActionEvent e){
+			textKopieren();
+		}
+
+	}
+	
+	/**
+	 * @author jrg
+	 *
+	 */
 	private class OeffnenActionListener implements ActionListener
 	{
 
